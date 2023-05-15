@@ -1,15 +1,37 @@
 # Scraping and Preprocessing pipeline
 
-## How to run
-1. Get an API key from https://rapidapi.com/logicbuilder/api/instagram-data1 (paid service) and create a file under Scraper/RapidAPI/api_key.py with `API_KEY="..."` (+make sure the file is in gitignore)
-2. run `orchestrator.py`. The default config downloads a dummy dataset from Instagram and runs the pipeline on it.
-3. You may need to do additional steup to run the full pipeline, see *Setup* section.
+## What this is 
+This repo provides an automated pipeline to scrape social media data and process it, including data cleaning and filtering, text translation, image labeling and image anonymization (currently it's only set up for Instagram data). If you have trouble running the pipeline, feel free to copy the functionality classes (see 'The stages') as they are able to run on their own.
 
- Optionally specify the arguments
+## How to run
+I created a dummy config for the pipeline that lets you download and process a dummy dataset.
+
+Before first running the pipeline a few things need to be set up:
+1. run this (needed for spacy language detection): `python -m spacy download en_core_web_sm`
+2. Create a file under `Scraper/RapidAPI/api_key.py` with API_KEY="..." (no actual API key needs to be specified to run the dummy config but the file entry needs to exist)
+3. Copy `data.zip` one folder layer above this repository (this will mimic the output of the scraping stage). The resulting folder should be:
+ - some folder
+	- Social-Media-Data-Pipeline
+	- data/social_media_scraping/Test_test/...
+4. 
+- a. Download https://github.com/naver/deep-image-retrieval and place it at Pipeline/Preprocessing/FeatureVectors/deep-image-retrieval and name the folder 'deep-image-retrieval'
+- b. Download the Resnet101-AP-GeM-LM18 model from https://github.com/naver/deep-image-retrieval/#pre-trained-models and place it under `deep-image-retrieval/dirtorch/models/Resnet101-AP-GeM-LM18.pt`
+
+To run the pipeline: `orchestrator.py`
+
+Optionally, specify the arguments:
   - `--config`: path to a pipeline config file (default: config/test.json - this will download a dummy dataset)
   - `--root_dir`: path to a root directory where the pipeline output will be stored (default: ../data/social_media_scraping)
-   
-   
+
+To run the scraper normally you will need to get an an API key from https://rapidapi.com/logicbuilder/api/instagram-data1 (paid service) and put it into Scraper/RapidAPI/api_key.py as `API_KEY="..."` (+make sure the file is in gitignore)
+
+Notes:
+- For the feature vector calculation you will need a decently fast graphics card. Otherwise it will take literal ages.
+- Repos/services used:
+	- https://rapidapi.com/logicbuilder/api/instagram-data1
+	- https://github.com/naver/deep-image-retrieval (needs to be downloaded and placed in this repo)
+	- https://github.com/CSAILVision/places365 (a light version comes automatically with this repo)
+
 ## The Pipeline
 The pipeline contains multiple processing stages and is defined by a config file, see config/ folder for examples.
 `orchestrator.py` manages the pipeline execution by reading a config file and executing the stages.
@@ -31,31 +53,22 @@ The config file defines some basic info a well as a set of stages to be executed
 You can create your own stages via the config file. Though you will need to pass an implementation for that stage that the pipeline can execute.
 
 Currently, these implementations are available:
-| Stage                      | Function                                                                       |
-|----------------------------|--------------------------------------------------------------------------------|
-| **InstagramFeedScraperStage**  | Scrapes content from Instagram given a search term                             |
-| **PreprocessorStage**          | Pre-processses posts by filtering etc.                                         |
-| **ExploratoryanalysisStage**   | Does some shallow summary and basic plotting of important variables            |
-| **TranslatorStage**            | Translates text                                                                |
-| **InstagramImageScraperStage** | Scrapes the images associated with the posts                                   |
-| **ImageLabelerStage**          | Labels images using the Places365-CNN                                          |
-| **ImageFeatureVectorStage**    | Caluclates feature vectors using https://github.com/naver/deep-image-retrieval |
-| **ImageAnonymizerStage**       | Pixelates faces in the images                                                  |
+| Stage                      | Function                                                                       | Default Implementation                                                                       |
+|----------------------------|----------------------------------|---------------------------------------|
+| **InstagramFeedScraperStage**  | Scrapes content from Instagram given a search term                             | Scraper.RapidAPI.InstagramFeedScraper |
+| **PreprocessorStage**          | Pre-processses posts by filtering etc.                                         | Preprocessing.Preprocessor |
+| **ExploratoryanalysisStage**   | Does some shallow summary and basic plotting of important variables            | Exploration.ExploratoryAnalysis |
+| **TranslatorStage**            | Translates text                                                                | Preprocessing.Translator |
+| **InstagramImageScraperStage** | Scrapes the images associated with the posts                                   | Scraper.RapidAPI.InstagramImageScraper |
+| **ImageLabelerStage**          | Labels images using the Places365-CNN                                          | Preprocessing.ImageLabeling.ImageLabeler |
+| **ImageFeatureVectorStage**    | Caluclates feature vectors using https://github.com/naver/deep-image-retrieval | Preprocessing.FeatureVectors.DIRAdapter |
+| **ImageAnonymizerStage**       | Pixelates faces in the images                                                  | Preprocessing.ImageAnonymization.ImageAnonymizer |
 
 The stage implementations are defined in `stages.py`.
 Requirements between stages, e.g. that stage x has to run before stage y is only defined implicitly since if a stage runs without the previous stage the input file may not be there from the previous stage.
 
 The classes in `stages.py` parse the stage parameters and delegate the actual work. They're just there to provice a common interface.
 The delegates, e.g. `Preprocessing/ImageLabeling/ImageLabeler.py` are fully functional by themselves outside of the pipeline if you prefer to use them that way.
-
-## Setup
-This depends on the stages you want to use. Specifc setup:
-- InstagramFeedScraperStage: Purchase a subscription at https://rapidapi.com/logicbuilder/api/instagram-data1 and place the api-key at `Scraper/RapidAPI/api_key.py` as API_KEY="..."
-- ImageLabelerStage: All the necessary files should come with this repo `Preprocessing/ImageLabeling`. You don't need to pull the Places365 repo separately.
-- ImageFeatureVectorStage: 
-	1. Pull the https://github.com/naver/deep-image-retrieval repo into `Preprocessing/FeatureVectors/deep-image-retrieval`
-	2. Download the Resnet101-AP-GeM-LM18 from https://github.com/naver/deep-image-retrieval#pre-trained-models and place it at `.../deep-image-retrieval/dirtorch/models/Resnet101-AP-GeM-LM18.pt`
-- ImageAnonymizerStage: requires a NN model, which comes with this repo
 
 ## Changing the pipeline
 

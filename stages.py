@@ -65,8 +65,9 @@ class InstagramFeedScraperStage(Stage):
             scraper.cleanup_data()
 
         # combine results from different search terms
-        df = pd.concat(dfs)
-        df.to_csv(output_path, index=False)
+        if len(dfs):
+            df = pd.concat(dfs)
+            df.to_csv(output_path, index=False)
         return True
 
 
