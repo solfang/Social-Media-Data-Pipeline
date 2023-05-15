@@ -6,7 +6,6 @@ import os
 from abc import ABC, abstractmethod
 import pandas as pd
 
-from Scraper.RapidAPI.api_key import API_KEY
 from Scraper.RapidAPI.InstagramFeedScraper import InstagramFeedScraper
 from Preprocessing.Preprocessor import Preprocessor, CTPreprocessor
 from Preprocessing.Translator import Translator
@@ -15,6 +14,8 @@ from Preprocessing.ImageLabeling.ImageLabeler import ImageLabeler
 from Preprocessing.FeatureVectors.DIRAdapter import get_features
 from Preprocessing.ImageAnonymization.ImageAnonymizer import ImageAnonymizer
 from Exploration.ExploratoryAnalysis import analyze_instagram_dataset
+import json
+import warnings
 
 
 class Stage(ABC):
@@ -51,8 +52,21 @@ class InstagramFeedScraperStage(Stage):
         # start a new scrape for each search term
         for search_term in self.params["terms"]:
             scrape_path = os.path.join(scrape_folder, "{}-{}".format(self.params["type"], search_term))
+            # read the API key
+            api_key_fpath = "Scraper/RapidAPI/api_key.json"
+            api_key = "dummy"
+            if not os.path.exists(api_key_fpath):
+                data = {"API_KEY": "your-api-key"}
+                with open("api_key.json", "w") as file:
+                    json.dump(data, file)
+                warnings.warn(
+                    "WARNING: no file for the Instagrams scraper API key exists. I created one under 'Scraper/RapidAPI/api_key.json' to place your API key in (also make sure it's in gitignore)")
+            else:
+                with open(api_key_fpath, "r") as file:
+                    data = json.load(file)
+                    api_key = data["API_KEY"]
             # initialize scraper and run the scrape
-            scraper = InstagramFeedScraper(scrape_path, API_KEY, search_term, self.params["type"], max_tries=self.params["max_tries"])
+            scraper = InstagramFeedScraper(scrape_path, api_key, search_term, self.params["type"], max_tries=self.params["max_tries"])
             if not scraper.is_finished():
                 scraper.scrape()
             scraper.combine_scrape_results(skip_if_exists=skip_if_exists)

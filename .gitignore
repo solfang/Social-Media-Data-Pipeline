@@ -2,3 +2,5 @@
 .idea/
 Scraper/RapidAPI/api_key.py
 venv/
+Scraper/RapidAPI/api_key.json
+api_key.json

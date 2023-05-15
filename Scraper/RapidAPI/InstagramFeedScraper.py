@@ -6,7 +6,6 @@ import logging
 import time
 import requests
 import json
-from Scraper.RapidAPI.api_key import API_KEY
 import re
 
 
