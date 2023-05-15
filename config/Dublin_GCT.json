@@ -1,0 +1,97 @@
+{
+    "dataset_name": "Dublin_GCT",
+    "skip_stage_if_exists": true,
+    "stages": [
+        {
+            "name": "Feed Scrape",
+            "implementation": "InstagramFeedScraperStage",
+            "input": null,
+            "output": "posts.csv",
+            "enabled": true,
+            "params": {
+                "terms": [
+                    "bordgaisenergytheatre",
+                    "bordgaistheatre",
+                    "bordgais"
+                ],
+                "type": "hashtag",
+                "max_tries": 10
+            }
+        },
+        {
+            "name": "Preprocessing",
+            "implementation": "PreprocessorStage",
+            "input": "posts.csv",
+            "output": "posts_preprocessed.csv",
+            "enabled": true,
+            "params": {
+                "remove_duplicates": true,
+                "images_only": true,
+                "year_filter": [
+                    2010,
+                    2020
+                ],
+                "hashtag_filter_include": [],
+                "hashtag_filter_exclude": [],
+                "max_images_per_year": 1000,
+                "lowercase_hashtags": true
+            }
+        },
+        {
+            "name": "Exploratory Analysis",
+            "implementation": "ExploratoryanalysisStage",
+            "input": "posts_preprocessed.csv",
+            "output": "exploratory analysis",
+            "enabled": true,
+            "params": {}
+        },
+        {
+            "name": "Translation",
+            "implementation": "TranslatorStage",
+            "input": "posts_preprocessed.csv",
+            "output": "posts_translated.csv",
+            "enabled": true,
+            "params": {
+                "target_column": "caption",
+                "target_language": "en"
+            }
+        },
+        {
+            "name": "Scrape Images",
+            "implementation": "InstagramImageScraperStage",
+            "input": "posts_preprocessed.csv",
+            "output": "images/images",
+            "enabled": true,
+            "params": {}
+        },
+        {
+            "name": "Label Images",
+            "implementation": "ImageLabelerStage",
+            "input": "images/images",
+            "output": "image_labels.csv",
+            "enabled": true,
+            "params": {}
+        },
+        {
+            "name": "Calculate Image Feature Vectors",
+            "implementation": "ImageFeatureVectorStage",
+            "input": "images/images",
+            "output": "image_features.npy",
+            "enabled": true,
+            "params": {
+                "gpu_id": 0
+            }
+        },
+        {
+            "name": "Anonymize Images",
+            "implementation": "ImageAnonymizerStage",
+            "input": "images/images",
+            "output": "images_anonymized",
+            "enabled": true,
+            "params": {
+                "in_place": true,
+                "confidence": 0.15
+            }
+        }
+    ]
+}

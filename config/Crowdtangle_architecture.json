@@ -1,0 +1,54 @@
+{
+    "dataset_name": "Crowdtangle_architecture",
+    "skip_stage_if_exists": true,
+    "stages": [
+        {
+            "name": "Preprocessing",
+            "implementation": "CTPreprocessorStage",
+            "input": "posts.csv",
+            "output": "posts_preprocessed.csv",
+            "enabled": true,
+            "params": {}
+        },
+        {
+            "name": "Translation",
+            "implementation": "TranslatorStage",
+            "input": "posts_preprocessed.csv",
+            "output": "posts_translated.csv",
+            "enabled": true,
+            "params": {
+                "target_column": "description",
+                "target_language": "en"
+            }
+        },
+        {
+            "name": "Label Images",
+            "implementation": "ImageLabelerStage",
+            "input": "images/images",
+            "output": "image_labels.csv",
+            "enabled": true,
+            "params": {}
+        },
+        {
+            "name": "Calculate Image Feature Vectors",
+            "implementation": "ImageFeatureVectorStage",
+            "input": "images/images",
+            "output": "image_features.npy",
+            "enabled": true,
+            "params": {
+                "gpu_id": 0
+            }
+        },
+        {
+            "name": "Anonymize Images",
+            "implementation": "ImageAnonymizerStage",
+            "input": "images/images",
+            "output": "images_anonymized",
+            "enabled": true,
+            "params": {
+                "in_place": true,
+                "confidence": 0.15
+            }
+        }
+    ]
+}

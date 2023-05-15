@@ -1,0 +1,4 @@
+*.pyc
+.idea/
+Scraper/RapidAPI/api_key.py
+venv/
