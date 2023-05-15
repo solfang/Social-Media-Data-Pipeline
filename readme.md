@@ -7,15 +7,15 @@ This repo provides an automated pipeline to scrape social media data and process
 I created a dummy config for the pipeline that lets you download and process a dummy dataset.
 
 Before first running the pipeline a few things need to be set up:
-1. run this (needed for spacy language detection): `python -m spacy download en_core_web_sm`
+1. Run this (needed for spacy language detection): `python -m spacy download en_core_web_sm`
 2. Create a file under `Scraper/RapidAPI/api_key.py` with API_KEY="..." (no actual API key needs to be specified to run the dummy config but the file entry needs to exist)
 3. Copy `data.zip` one folder layer above this repository (this will mimic the output of the scraping stage). The resulting folder should be:
  - some folder
 	- Social-Media-Data-Pipeline
 	- data/social_media_scraping/Test_test/...
-4. 
-- a. Download https://github.com/naver/deep-image-retrieval and place it at Pipeline/Preprocessing/FeatureVectors/deep-image-retrieval and name the folder 'deep-image-retrieval'
-- b. Download the Resnet101-AP-GeM-LM18 model from https://github.com/naver/deep-image-retrieval/#pre-trained-models and place it under `deep-image-retrieval/dirtorch/models/Resnet101-AP-GeM-LM18.pt`
+4. Deep Image retrieval code and model:
+4.1 Download https://github.com/naver/deep-image-retrieval and place it at Pipeline/Preprocessing/FeatureVectors/deep-image-retrieval and name the folder 'deep-image-retrieval'
+4.2 Download the Resnet101-AP-GeM-LM18 model from https://github.com/naver/deep-image-retrieval/#pre-trained-models and place it under `deep-image-retrieval/dirtorch/models/Resnet101-AP-GeM-LM18.pt`
 
 To run the pipeline: `orchestrator.py`
 
