@@ -70,7 +70,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Run the scraping and preprocessing pipeline')
 
     parser.add_argument('--config', type=str, help='path to a pipeline config file', default="config/test.json")
-    parser.add_argument('--root_dir', type=str, help='path to a directory where the pipeline output will be stored', default="../data/datasets")
+    parser.add_argument('--root_dir', type=str, help='path to a directory where the pipeline output will be stored', default="../data/social_media_scraping")
     args = parser.parse_args()
     config_file = args.config
     data_dir = args.root_dir

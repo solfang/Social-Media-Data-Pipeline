@@ -7,7 +7,7 @@
 
  Optionally specify the arguments
   - `--config`: path to a pipeline config file (default: config/test.json - this will download a dummy dataset)
-  - `--root_dir`: path to a root directory where the pipeline output will be stored (default: ../data/datasets)
+  - `--root_dir`: path to a root directory where the pipeline output will be stored (default: ../data/social_media_scraping)
    
    
 ## The Pipeline
