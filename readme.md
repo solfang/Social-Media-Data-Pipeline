@@ -7,7 +7,7 @@ This repo provides an automated pipeline to scrape social media data and process
 I created a dummy config for the pipeline that lets you download and process a dummy dataset.
 
 Before running the pipeline for the first time, a few things need to be set up:
-1. install `requirements.txt`: `pip install -r requirements.txt` (preferably in a virtual environment) (tested on Python 3.7 - note: I run torch 1.7+cu101, which is no longer available, so I put torch 2.0.0 into the requirements. The code has not been tested with this.)
+1. install `requirements.txt`: `pip install -r requirements.txt` (preferably in a virtual environment) (tested on Python 3.7)
 2. Run this (needed for spacy language detection): `python -m spacy download en_core_web_sm`
 3. Unzip `data.zip` one folder layer above this repository (this will mimic the output of the scraping stage). The resulting folder should be:
  - some folder
