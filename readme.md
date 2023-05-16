@@ -23,7 +23,7 @@ Optionally, specify the arguments:
   - `--config`: path to a pipeline config file (default: config/test.json - this will download a dummy dataset)
   - `--root_dir`: path to a root directory where the pipeline output will be stored (default: ../data/social_media_scraping)
 
-To run the scraper normally you will need to get an an API key from https://rapidapi.com/logicbuilder/api/instagram-data1 (paid service) and put it into Scraper/RapidAPI/api_key.py as `API_KEY="..."` (+make sure the file is in gitignore)
+To run the scraper normally you will need to get an an API key from https://rapidapi.com/logicbuilder/api/instagram-data1 (paid service) and put it into Scraper/RapidAPI/api_key.json (+make sure the file is in gitignore)
 
 Notes:
 - For the feature vector calculation you will need a decently fast graphics card. Otherwise it will take literal ages.
