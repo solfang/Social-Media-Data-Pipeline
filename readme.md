@@ -64,7 +64,7 @@ Currently, these implementations are available:
 | **ExploratoryanalysisStage**   | Does some shallow summary and basic plotting of important variables            | Exploration.ExploratoryAnalysis |
 | **TranslatorStage**            | Translates text                                                                | Preprocessing.Translator |
 | **InstagramImageScraperStage** | Scrapes the images associated with the posts                                   | Scraper.RapidAPI.InstagramImageScraper |
-| **ImageLabelerStage**          | Labels images using the Places365-CNN                                          | Preprocessing.ImageLabeling.ImageLabeler |
+| **ImageLabelerStage**          | Labels images using https://github.com/CSAILVision/places365                                          | Preprocessing.ImageLabeling.ImageLabeler |
 | **ImageFeatureVectorStage**    | Caluclates feature vectors using https://github.com/naver/deep-image-retrieval | Preprocessing.FeatureVectors.DIRAdapter |
 | **ImageAnonymizerStage**       | Pixelates faces in the images                                                  | Preprocessing.ImageAnonymization.ImageAnonymizer |
 
