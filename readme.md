@@ -1,7 +1,7 @@
 # Scraping and Preprocessing pipeline
 
 This is one of two repositories for my master's thesis:
-1. Data scraping and processing: [This repo](https://github.com/solfang/Social-Media-Data-Pipeline)
+1. Data scraping and processing: This repo
 2. Data analyis: https://github.com/solfang/IconicArchitecture
 
 ## Overview
