@@ -1,6 +1,10 @@
 # Scraping and Preprocessing pipeline
 
-## What this is 
+This is one of two repositories for my master's thesis:
+2. Data scraping and processing: This repo
+1. Analyss: https://github.com/solfang/IconicArchitecture
+
+## Overview
 This repo provides an automated pipeline to scrape social media data and process it, including data cleaning and filtering, text translation, image labeling and image anonymization (currently it's only set up for Instagram data). If you have trouble running the pipeline, feel free to copy the functionality classes (see 'The stages') as they are able to run on their own.
 
 ## How to run
