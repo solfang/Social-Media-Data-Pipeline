@@ -23,13 +23,13 @@ Before running the pipeline for the first time, a few things need to be set up:
 	1. Download https://github.com/naver/deep-image-retrieval and place it at Preprocessing/FeatureVectors/deep-image-retrieval.
 	2. Download the Resnet101-AP-GeM-LM18 model from https://github.com/naver/deep-image-retrieval/#pre-trained-models, unzip it and place it under `.../deep-image-retrieval/dirtorch/models/Resnet101-AP-GeM-LM18.pt`
 
-To run the pipeline: `orchestrator.py`
+To run the pipeline: `python orchestrator.py`
 
 Optionally, specify the arguments:
   - `--config`: path to a pipeline config file (default: config/test.json - this will download a dummy dataset)
   - `--root_dir`: path to a root directory where the pipeline output will be stored (default: ../data/social_media_scraping)
 
-To run the scraper normally you will need to get an an API key from https://rapidapi.com/logicbuilder/api/instagram-data1 (paid service) and put it into Scraper/RapidAPI/api_key.json (+make sure the file is in gitignore)
+To run the scraper regularly you will need to get an an API key from https://rapidapi.com/logicbuilder/api/instagram-data1 (paid service) and put it into Scraper/RapidAPI/api_key.json (+make sure the file is in gitignore)
 
 Notes:
 - For the feature vector calculation you will need a decently fast graphics card. Otherwise it will take literal ages.
@@ -44,7 +44,7 @@ The pipeline contains multiple processing stages and is defined by a config file
 
 ## The config file
 The config file defines some basic info a well as a set of stages to be executed.
-- `dataset_name` (string): the pipeline output will be stored to and read from [dataset_name]/[root_dir] (root directory is given to orchestrator.py)
+- `dataset_name` (string): the pipeline output will be stored to and read from [root_dir]/[dataset_name] (root directory is given to orchestrator.py)
 - `skip_stage_if_exists` (bool): if the output of a stage already exists it will be skipped
 - `stages`: list of stages containing:
 	- `name` (string): name of the stage (can be whatever)
@@ -71,14 +71,14 @@ Currently, these implementations are available:
 | **ImageAnonymizerStage**       | Pixelates faces in the images                                                  | Preprocessing.ImageAnonymization.ImageAnonymizer |
 
 The stage implementations are defined in `stages.py`.
-Requirements between stages, e.g. that stage x has to run before stage y is only defined implicitly since if a stage runs without the previous stage the input file may not be there from the previous stage.
+Requirements between stages, e.g. that stage x has to run before stage y is only defined implicitly. If a stage runs without the previous stage the input file may not have been created.
 
-The classes in `stages.py` parse the stage parameters and delegate the actual work. They're just there to provice a common interface.
-The delegates, e.g. `Preprocessing/ImageLabeling/ImageLabeler.py` are fully functional by themselves outside of the pipeline if you prefer to use them that way.
+The classes in `stages.py` parse the stage parameters and delegate the actual work. They're just there to provide a common interface.
+The delegates, e.g. `Preprocessing.py / ImageLabeler.py / ImageAnonymizer.py` are fully functional by themselves outside of the pipeline if you prefer to use them separately.
 
 ## Changing the pipeline
 
-The current stages are tailored for Instagram data.
+The current stages are tailored to Instagram data.
 
 You can swap out specific stages, e.g. to scrape Crowdtangle instead of using a third-party Instagram scraper:
 1. Create new stage classes in `scraper.py` that implement/delegate to the necessary functionality for Crowdtangle
