@@ -14,14 +14,14 @@ I created a dummy config for the pipeline that lets you download and process a d
 
 Before running the pipeline for the first time, a few things need to be set up:
 1. install `requirements.txt`: `pip install -r requirements.txt` (preferably in a virtual environment) (tested on Python 3.7)
-2. Run this (needed for spacy language detection): `python -m spacy download en_core_web_sm`
-3. Unzip `data.zip` one folder layer above this repository (this will mimic the output of the scraping stage). The resulting folder should be:
- - some folder
-	- Social-Media-Data-Pipeline
-	- data/social_media_scraping/Test_test/...
+2. Run in shell: `python -m spacy download en_core_web_sm` (needed for spacy language detection)
+3. Unzip `data.zip` one folder layer above this repository (this will mimic the output of the scraping stage). The resulting folder structure should be:
+ - [...]/some folder/
+	- Social-Media-Data-Pipeline/
+	- data/
 4. Deep Image retrieval code and model:
-	5.1 Download https://github.com/naver/deep-image-retrieval and place it at Preprocessing/FeatureVectors/deep-image-retrieval.
-	5.2 Download the Resnet101-AP-GeM-LM18 model from https://github.com/naver/deep-image-retrieval/#pre-trained-models, unzip it and place it under `.../deep-image-retrieval/dirtorch/models/Resnet101-AP-GeM-LM18.pt`
+	4.1 Download https://github.com/naver/deep-image-retrieval and place it at Preprocessing/FeatureVectors/deep-image-retrieval.
+	4.2 Download the Resnet101-AP-GeM-LM18 model from https://github.com/naver/deep-image-retrieval/#pre-trained-models, unzip it and place it under `.../deep-image-retrieval/dirtorch/models/Resnet101-AP-GeM-LM18.pt`
 
 To run the pipeline: `orchestrator.py`
 
