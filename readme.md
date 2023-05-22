@@ -20,8 +20,8 @@ Before running the pipeline for the first time, a few things need to be set up:
 	- Social-Media-Data-Pipeline/
 	- data/
 4. Deep Image retrieval code and model:
-	4.1 Download https://github.com/naver/deep-image-retrieval and place it at Preprocessing/FeatureVectors/deep-image-retrieval.
-	4.2 Download the Resnet101-AP-GeM-LM18 model from https://github.com/naver/deep-image-retrieval/#pre-trained-models, unzip it and place it under `.../deep-image-retrieval/dirtorch/models/Resnet101-AP-GeM-LM18.pt`
+	1. Download https://github.com/naver/deep-image-retrieval and place it at Preprocessing/FeatureVectors/deep-image-retrieval.
+	2. Download the Resnet101-AP-GeM-LM18 model from https://github.com/naver/deep-image-retrieval/#pre-trained-models, unzip it and place it under `.../deep-image-retrieval/dirtorch/models/Resnet101-AP-GeM-LM18.pt`
 
 To run the pipeline: `orchestrator.py`
 
